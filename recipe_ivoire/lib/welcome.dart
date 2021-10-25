@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_recipee_app/Screens/login.dart';
 import 'package:flutter_recipee_app/Screens/signup.dart';
 
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(

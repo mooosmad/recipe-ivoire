@@ -31,8 +31,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Recette Ivoire',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+              primarySwatch: Colors.blue, brightness: Brightness.light),
           home: AuthenticationWrapper(),
         ));
   }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_recipee_app/Screens/RecipeDetails.dart';
+import 'package:flutter_recipee_app/main.dart';
 import 'package:flutter_recipee_app/model/CategoriesModel.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
 import 'package:flutter_recipee_app/services/authentification_service.dart';
@@ -12,6 +13,7 @@ import 'package:provider/src/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class MyHomePage extends StatefulWidget {
+  final auth = FirebaseAuth.instance;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -20,10 +22,13 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   List<Categories> categories = [];
   List<Recipe> recettes = [];
-
   bool loadCategories;
   bool loadRecettes = true;
   String categorieSelectioner;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  void _openEndDrawer() {
+    _scaffoldKey.currentState.openEndDrawer();
+  }
 
   getRecettes(String categori) async {
     var url = Uri.parse(
@@ -90,6 +95,14 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
+  String firstLetterEmail(String email) {
+    String upper;
+    if (email != null) {
+      return upper = email[0].toUpperCase();
+    }
+    return upper;
+  }
+
   @override
   void initState() {
     getCategories();
@@ -99,7 +112,9 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
     return Scaffold(
+      key: _scaffoldKey,
       bottomNavigationBar: Container(
         // color: Colors.grey[300],
         height: 60,
@@ -167,13 +182,31 @@ class _MyHomePageState extends State<MyHomePage>
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(right: 10),
+                padding: EdgeInsets.only(right: 10, top: 10),
                 alignment: Alignment.topRight,
-                child: IconButton(
-                    onPressed: () {
-                      context.read<AuthenticationService>().signOut();
-                    },
-                    icon: Icon(Icons.ac_unit_outlined)),
+                child: GestureDetector(
+                    onTap: _openEndDrawer,
+                    child: firebaseUser != null
+                        ? CircleAvatar(
+                            radius: 26,
+                            backgroundImage: firebaseUser.photoURL != null
+                                ? NetworkImage(firebaseUser.photoURL)
+                                : null,
+                            child: firebaseUser.photoURL == null
+                                ? Text(
+                                    "${firstLetterEmail(firebaseUser.email)}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 26,
+                                    ),
+                                  )
+                                : null)
+                        : Container()),
+                // child: IconButton(
+                //     onPressed: () {
+                //       context.read<AuthenticationService>().signOut();
+                //     },
+                //     icon: Icon(Icons.ac_unit_outlined)),
               ),
               SizedBox(
                 height: 10,
@@ -250,7 +283,40 @@ class _MyHomePageState extends State<MyHomePage>
           ),
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+      endDrawer: Drawer(
+        child: Container(
+          child: Column(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: null,
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: OutlinedButton(
+                      onPressed: () {
+                        context
+                            .read<AuthenticationService>()
+                            .signOut()
+                            .then((_) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AuthenticationWrapper(),
+                            ),
+                          );
+                        });
+                      },
+                      child: Text("Deconnexion")),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

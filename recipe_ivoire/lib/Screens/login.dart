@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_recipee_app/Screens/HomePage.dart';
 import 'package:flutter_recipee_app/Screens/signup.dart';
 import 'package:flutter_recipee_app/loader/loading.dart';
 import 'package:flutter_recipee_app/services/authentification_service.dart';
@@ -20,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return loading
         ? Loading()
         : Scaffold(
@@ -93,8 +96,10 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Colors.white,
                               ),
                               textAlign: TextAlign.left,
+                              keyboardType: TextInputType.emailAddress,
                               decoration: textInputDecoration.copyWith(
-                                  hintText: 'recipeivoire@email.com'),
+                                hintText: 'recipeivoire@email.com',
+                              ),
                             ),
                           ),
                         ],
@@ -198,17 +203,24 @@ class _LoginPageState extends State<LoginPage> {
                                 setState(() {
                                   loading = true;
                                 });
-                                context.read<AuthenticationService>().signIn(
+                                context
+                                    .read<AuthenticationService>()
+                                    .signIn(
                                       email: emailController.text.trim(),
                                       password: passwordController.text.trim(),
-                                    );
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AuthenticationWrapper(),
-                                  ),
-                                );
+                                    )
+                                    .then((_) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AuthenticationWrapper(),
+                                    ),
+                                  );
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                });
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -365,7 +377,7 @@ class _LoginPageState extends State<LoginPage> {
                                             Expanded(
                                               // ignore: deprecated_member_use
                                               child: FlatButton(
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   context
                                                       .read<
                                                           AuthenticationService>()
