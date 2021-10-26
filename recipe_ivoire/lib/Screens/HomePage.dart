@@ -6,14 +6,12 @@ import 'package:flutter_recipee_app/Screens/RecipeDetails.dart';
 import 'package:flutter_recipee_app/main.dart';
 import 'package:flutter_recipee_app/model/CategoriesModel.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
-import 'package:flutter_recipee_app/services/authentification_service.dart';
 import "package:http/http.dart" as http;
 import 'package:flutter_recipee_app/NewRecipe.dart';
 import 'package:provider/src/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class MyHomePage extends StatefulWidget {
-  final auth = FirebaseAuth.instance;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -25,7 +23,9 @@ class _MyHomePageState extends State<MyHomePage>
   bool loadCategories;
   bool loadRecettes = true;
   String categorieSelectioner;
+  final auth = FirebaseAuth.instance;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String errorMessage = '';
   void _openEndDrawer() {
     _scaffoldKey.currentState.openEndDrawer();
   }
@@ -298,17 +298,12 @@ class _MyHomePageState extends State<MyHomePage>
                   padding: const EdgeInsets.only(bottom: 10),
                   child: OutlinedButton(
                       onPressed: () {
-                        context
-                            .read<AuthenticationService>()
-                            .signOut()
-                            .then((_) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AuthenticationWrapper(),
-                            ),
-                          );
-                        });
+                        auth.signOut();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => AuthenticationWrapper(),
+                          ),
+                        );
                       },
                       child: Text("Deconnexion")),
                 ),

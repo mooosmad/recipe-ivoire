@@ -1,22 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_recipee_app/Screens/login.dart';
-import 'package:flutter_recipee_app/Screens/verify.dart';
 import 'package:flutter_recipee_app/loader/loading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_recipee_app/main.dart';
 import 'package:flutter_recipee_app/utils/constante.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class SignupPage extends StatefulWidget {
-  SignupPage({key}) : super(key: key);
+class ResetPage extends StatefulWidget {
+  ResetPage({key}) : super(key: key);
 
   @override
-  _SignupPageState createState() => _SignupPageState();
+  _ResetPageState createState() => _ResetPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
-  String _email, _password;
+class _ResetPageState extends State<ResetPage> {
+  String _email;
   bool loading = false;
   final auth = FirebaseAuth.instance;
   @override
@@ -32,7 +29,7 @@ class _SignupPageState extends State<SignupPage> {
                 image: DecorationImage(
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.5), BlendMode.dstATop),
-                  image: AssetImage('assets/images/img5.jpg'),
+                  image: AssetImage('assets/images/img2.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -40,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(100.0),
+                      padding: EdgeInsets.all(150.0),
                       child: Center(
                         child: Icon(
                           Icons.food_bank,
@@ -107,91 +104,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     Divider(
-                      height: 2.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 40.0),
-                            child: Text(
-                              "MOT DE PASSE",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 15.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.only(
-                          left: 40.0, right: 40.0, top: 10.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                              color: Colors.white,
-                              width: 2,
-                              style: BorderStyle.solid),
-                        ),
-                      ),
-                      padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (value) {
-                                setState(() {
-                                  _password = value.trim();
-                                });
-                              },
-                              obscureText: true,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.left,
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: '**********'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
                       height: 24.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20.0),
-                          // ignore: deprecated_member_use
-                          child: FlatButton(
-                            child: Text(
-                              "Déjà un compte ?",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 15.0,
-                              ),
-                              textAlign: TextAlign.end,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -207,7 +120,16 @@ class _SignupPageState extends State<SignupPage> {
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
                               color: Colors.white,
-                              onPressed: () => _signup(_email, _password),
+                              onPressed: () {
+                                auth.sendPasswordResetEmail(email: _email);
+                                Fluttertoast.showToast(
+                                    msg: "Email de renitialisation envoyé",
+                                    gravity: ToastGravity.TOP,
+                                    backgroundColor: Colors.white,
+                                    textColor: Colors.black,
+                                    timeInSecForIosWeb: 5);
+                                Navigator.of(context).pop();
+                              },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 20.0,
@@ -218,7 +140,7 @@ class _SignupPageState extends State<SignupPage> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                        "INSCRIPTION",
+                                        "Envoyer une demande",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.black,
@@ -238,28 +160,5 @@ class _SignupPageState extends State<SignupPage> {
               ),
             ),
           );
-  }
-
-  _signup(String _email, String _password) async {
-    try {
-      //Create Get Firebase Auth User
-      await auth.createUserWithEmailAndPassword(
-          email: _email, password: _password);
-
-      //Stop animation
-      setState(() {
-        loading = false;
-      });
-
-      //Success
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => VerifyPage()));
-    } on FirebaseAuthException catch (error) {
-      Fluttertoast.showToast(msg: error.message, gravity: ToastGravity.TOP);
-      //Stop animation
-      setState(() {
-        loading = false;
-      });
-    }
   }
 }

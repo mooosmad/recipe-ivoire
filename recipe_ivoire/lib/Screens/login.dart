@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_recipee_app/Screens/HomePage.dart';
+import 'package:flutter_recipee_app/Screens/reset.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_recipee_app/Screens/signup.dart';
 import 'package:flutter_recipee_app/loader/loading.dart';
 import 'package:flutter_recipee_app/services/authentification_service.dart';
@@ -16,10 +18,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String _email, _password;
   bool loading = false;
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
+  String errorMessage;
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
@@ -87,10 +89,9 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           Expanded(
                             child: TextFormField(
-                              controller: emailController,
-                              validator: (value) => value.isEmpty
-                                  ? "Entrez un email s'il vous plait"
-                                  : null,
+                              onChanged: (value) {
+                                _email = value.trim();
+                              },
                               obscureText: false,
                               style: TextStyle(
                                 color: Colors.white,
@@ -145,11 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           Expanded(
                             child: TextFormField(
-                              controller: passwordController,
+                              onChanged: (value) {
+                                _password = value.trim();
+                              },
                               obscureText: true,
-                              validator: (value) => value.length < 6
-                                  ? "Entrez un mot de passe long et robuste"
-                                  : null,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -180,7 +180,13 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               textAlign: TextAlign.end,
                             ),
-                            onPressed: () => {},
+                            onPressed: () => {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ResetPage()),
+                              ),
+                            },
                           ),
                         ),
                       ],
@@ -199,28 +205,11 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
                               color: Colors.white,
-                              onPressed: () async {
+                              onPressed: () {
                                 setState(() {
                                   loading = true;
                                 });
-                                context
-                                    .read<AuthenticationService>()
-                                    .signIn(
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                    )
-                                    .then((_) {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          AuthenticationWrapper(),
-                                    ),
-                                  );
-                                  setState(() {
-                                    loading = false;
-                                  });
-                                });
+                                _signin(_email, _password);
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -433,5 +422,181 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           );
+  }
+
+  _signin(String _email, String _password) async {
+    try {
+      //Create Get Firebase Auth User
+      await auth.signInWithEmailAndPassword(email: _email, password: _password);
+
+      //Stop animation
+      setState(() {
+        loading = false;
+      });
+
+      //Success
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => AuthenticationWrapper()));
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+        case "account-exists-with-different-credential":
+        case "email-already-in-use":
+          errorMessage =
+              "Adresse e-Mail déjà utilisée. Accédez à la page de connexion.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case "ERROR_WRONG_PASSWORD":
+        case "wrong-password":
+          errorMessage =
+              "Mot de passe incorrect, Mauvaise combinaison e-mail/mot de passe.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case "ERROR_USER_NOT_FOUND":
+        case "user-not-found":
+          errorMessage = "Aucun utilisateur trouvé avec cet e-mail.";
+          Fluttertoast.showToast(
+            msg: errorMessage,
+            gravity: ToastGravity.TOP,
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            timeInSecForIosWeb: 5,
+          );
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case "ERROR_USER_DISABLED":
+        case "user-disabled":
+          errorMessage = "Utilisateur désactivé.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case "ERROR_TOO_MANY_REQUESTS":
+        case "operation-not-allowed":
+          errorMessage = "Trop de demandes pour se connecter à ce compte.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case "ERROR_OPERATION_NOT_ALLOWED":
+        case "operation-not-allowed":
+          errorMessage = "Erreur de serveur, veuillez réessayer plus tard.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case "ERROR_INVALID_EMAIL":
+        case "invalid-email":
+          errorMessage = "Adresse email invalide.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case 'There is no user record corresponding to this identifier. The user may have been deleted.':
+          errorMessage =
+              "Il n'y a pas de fiche utilisateur correspondant à cet identifiant. L'utilisateur a peut-être été supprimé.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case 'The password is invalid or the user does not have a password.':
+          errorMessage =
+              "le mot de passe est invalide ou l'utilisateur n'a pas de mot de passe";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
+          errorMessage =
+              "le mot de passe est invalide ou l'utilisateur n'a pas de mot de passe";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+        default:
+          errorMessage = "Échec de la connexion. Veuillez réessayer.";
+          Fluttertoast.showToast(
+              msg: errorMessage,
+              gravity: ToastGravity.TOP,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              timeInSecForIosWeb: 5);
+          //Stop animation
+          setState(() {
+            loading = false;
+          });
+          break;
+      }
+    }
   }
 }
