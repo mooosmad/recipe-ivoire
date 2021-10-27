@@ -5,7 +5,6 @@ import 'package:flutter_recipee_app/Screens/login.dart';
 import 'package:flutter_recipee_app/Screens/verify.dart';
 import 'package:flutter_recipee_app/loader/loading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_recipee_app/main.dart';
 import 'package:flutter_recipee_app/utils/constante.dart';
 
 class SignupPage extends StatefulWidget {

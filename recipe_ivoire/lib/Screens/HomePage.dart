@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_recipee_app/Screens/RecipeDetails.dart';
-import 'package:flutter_recipee_app/main.dart';
+import 'package:flutter_recipee_app/Screens/wrapper.dart';
 import 'package:flutter_recipee_app/model/CategoriesModel.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
 import "package:http/http.dart" as http;

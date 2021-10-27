@@ -33,6 +33,10 @@ dependencies:
   http: ^0.13.4
   cached_network_image: ^3.1.0
   url_launcher: ^6.0.12
+  carousel_slider: ^4.0.0
+  lottie: ^1.2.1
+  shared_preferences: ^2.0.8
+  splash_screen_view: ^3.0.0
 
  
 
@@ -68,7 +72,18 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/logo.png
+    - assets/images/img1.jpg
+    - assets/images/img2.jpg
+    - assets/images/img3.jpg
+    - assets/images/img4.jpg
+    - assets/images/img5.jpg
+    - assets/images/lt.png
+    - assets/lottie/cooking.json
+    - assets/lottie/animation.json
+    - assets/lottie/onboarding.json
+    - assets/lottie/recipes.json
+    
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

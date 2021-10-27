@@ -2,14 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_recipee_app/Screens/reset.dart';
+import 'package:flutter_recipee_app/Screens/wrapper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_recipee_app/Screens/signup.dart';
 import 'package:flutter_recipee_app/loader/loading.dart';
 import 'package:flutter_recipee_app/services/authentification_service.dart';
 import 'package:flutter_recipee_app/utils/constante.dart';
 import 'package:provider/src/provider.dart';
-
-import '../main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({key}) : super(key: key);
