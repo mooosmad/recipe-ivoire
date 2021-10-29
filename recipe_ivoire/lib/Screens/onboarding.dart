@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_recipee_app/Screens/wrapper.dart';
 import 'package:flutter_recipee_app/constant/animation.dart';
-import 'package:flutter_recipee_app/constant/color.dart';
 import "package:shared_preferences/shared_preferences.dart";
 import 'package:lottie/lottie.dart';
 
@@ -33,7 +32,7 @@ class _DescriptionState extends State<Description> {
     return Scaffold(
       floatingActionButton: showFAB
           ? FloatingActionButton(
-              backgroundColor: Colors.yellowAccent,
+              backgroundColor: Colors.orange,
               heroTag: "FAB",
               onPressed: () {
                 setState(() {
@@ -76,7 +75,7 @@ class _DescriptionState extends State<Description> {
                       ),
                       Container(
                         child: Lottie.asset(
-                          "assets/lottie/cooking.json",
+                          "assets/lottie/cookingfood.json",
                           height: 300,
                         ),
                       ),
@@ -86,13 +85,14 @@ class _DescriptionState extends State<Description> {
                         style: style.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
+                          color: Colors.black,
                         ),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  color: mycolor2,
+                  color: Colors.white,
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -103,10 +103,11 @@ class _DescriptionState extends State<Description> {
                         style: style.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
+                          color: Colors.black,
                         ),
                       ),
                       Container(
-                        child: Lottie.asset("assets/lottie/animation.json"),
+                        child: Lottie.asset("assets/lottie/recipes.json"),
                         height: 200,
                       ),
                       AnimationWidget(
@@ -118,6 +119,7 @@ class _DescriptionState extends State<Description> {
                           style: style.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
+                            color: Colors.black,
                           ),
                         ),
                       )
@@ -125,7 +127,7 @@ class _DescriptionState extends State<Description> {
                   ),
                 ),
                 Container(
-                  color: mycolor1,
+                  color: Colors.white,
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -137,9 +139,9 @@ class _DescriptionState extends State<Description> {
                           "Avec l'intelligence artificiel , vous avez la possibilité de traduire le text sur les photos",
                           textAlign: TextAlign.center,
                           style: style.copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              color: Colors.black),
                         ),
                       ),
                       Container(
@@ -183,7 +185,7 @@ class _DescriptionState extends State<Description> {
                       width: initialPage == 0 ? 25 : 10,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: initialPage == 0 ? Colors.purple : Colors.grey,
+                        color: initialPage == 0 ? Colors.orange : Colors.black,
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
@@ -192,7 +194,7 @@ class _DescriptionState extends State<Description> {
                       width: initialPage == 1 ? 25 : 10,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: initialPage == 1 ? Colors.purple : Colors.grey,
+                        color: initialPage == 1 ? Colors.orange : Colors.black,
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
@@ -201,7 +203,7 @@ class _DescriptionState extends State<Description> {
                       width: initialPage == 2 ? 25 : 10,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: initialPage == 2 ? Colors.purple : Colors.grey,
+                        color: initialPage == 2 ? Colors.orange : Colors.black,
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),

@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.1
-  flutter_icons: ^1.1.0
   sliding_up_panel: ^1.0.2
   tab_indicator_styler: ^1.0.0
   firebase_core: "^0.7.0"
@@ -47,6 +46,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_sign_in: ^5.1.1
   fluttertoast: ^8.0.8
+  flutter_icons: ^1.1.0
+    ios: true
+    image_path: "assets/logo.png"
+
 
 dev_dependencies:
   flutter_test:
@@ -72,17 +75,15 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/logo.png
-    - assets/images/img1.jpg
-    - assets/images/img2.jpg
-    - assets/images/img3.jpg
-    - assets/images/img4.jpg
-    - assets/images/img5.jpg
-    - assets/images/lt.png
-    - assets/lottie/cooking.json
-    - assets/lottie/animation.json
-    - assets/lottie/onboarding.json
-    - assets/lottie/recipes.json
+    - assets/lottie/
+    - assets/images/
+    # - assets/images/img1.jpg
+    # - assets/images/img2.jpg
+    # - assets/images/img3.jpg
+    # - assets/images/img4.jpg
+    # - assets/images/img5.jpg
+    # - assets/lottie/recipes.json
+    # - assets/lottie/42205-cooking-your-food.json
     
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
