@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage>
   bool loadRecettes = true;
   String categorieSelectioner;
   final auth = FirebaseAuth.instance;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String errorMessage = '';
   void _openEndDrawer() {
     _scaffoldKey.currentState.openEndDrawer();
@@ -216,10 +216,10 @@ class _MyHomePageState extends State<MyHomePage>
                 indicatorColor: Colors.red,
                 tabs: [
                   Tab(
-                    text: "New Recipes".toUpperCase(),
+                    text: "Nouvelles recettes".toUpperCase(),
                   ),
                   Tab(
-                    text: "Favourites".toUpperCase(),
+                    text: "Favories".toUpperCase(),
                   ),
                 ],
                 labelColor: Colors.black,
@@ -272,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage>
                     Container(
                       child: Center(
                         child: Text(
-                          'Favourite Section',
+                          'Favories Section',
                         ),
                       ),
                     ),

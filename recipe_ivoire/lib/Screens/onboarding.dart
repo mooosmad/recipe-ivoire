@@ -64,7 +64,7 @@ class _DescriptionState extends State<Description> {
                         second: 10,
                         depart: Depart.top,
                         child: Text(
-                          "Bienvenue ",
+                          "Bienvenue Chef 👨‍🍳",
                           textAlign: TextAlign.center,
                           style: style.copyWith(
                             fontWeight: FontWeight.bold,
@@ -75,12 +75,12 @@ class _DescriptionState extends State<Description> {
                       ),
                       Container(
                         child: Lottie.asset(
-                          "assets/lottie/cookingfood.json",
+                          "assets/lottie/53023-online-cooking-lecture.json",
                           height: 300,
                         ),
                       ),
                       Text(
-                        " Okay!",
+                        " La cuisine à domicile",
                         textAlign: TextAlign.center,
                         style: style.copyWith(
                           fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class _DescriptionState extends State<Description> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Choissisez votre langue puis parlez...",
+                        "Choisissez votre recette puis Cuisinez...",
                         textAlign: TextAlign.center,
                         style: style.copyWith(
                           fontWeight: FontWeight.bold,
@@ -107,14 +107,15 @@ class _DescriptionState extends State<Description> {
                         ),
                       ),
                       Container(
-                        child: Lottie.asset("assets/lottie/recipes.json"),
+                        child: Lottie.asset(
+                            "assets/lottie/45728-cooking-news-animation.json"),
                         height: 200,
                       ),
                       AnimationWidget(
                         second: 10,
                         depart: Depart.bottom,
                         child: Text(
-                          "Vous pouvez aussi saisir votre phrase au clavier",
+                          "Vous pouvez voir les astuces recette sur la video",
                           textAlign: TextAlign.center,
                           style: style.copyWith(
                             fontWeight: FontWeight.bold,
@@ -136,7 +137,7 @@ class _DescriptionState extends State<Description> {
                         second: 10,
                         depart: Depart.top,
                         child: Text(
-                          "Avec l'intelligence artificiel , vous avez la possibilité de traduire le text sur les photos",
+                          "Ainsi que garder vos recettes favorites",
                           textAlign: TextAlign.center,
                           style: style.copyWith(
                               fontWeight: FontWeight.bold,
