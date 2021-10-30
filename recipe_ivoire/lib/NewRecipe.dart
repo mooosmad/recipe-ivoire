@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_recipee_app/data/database.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
 
 class RecipeCard extends StatefulWidget {
@@ -16,6 +17,7 @@ class RecipeCard extends StatefulWidget {
 class _RecipeCardState extends State<RecipeCard> {
   bool loved = false;
   bool saved = false;
+  List<Recipe> recettes = [];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -115,6 +117,9 @@ class _RecipeCardState extends State<RecipeCard> {
                       onTap: () {
                         setState(() {
                           loved = !loved;
+                          if (loved = true) {
+                            RecipeDataBase.instance.insertRecipe(Recipe());
+                          }
                         });
                       },
                       child: Icon(

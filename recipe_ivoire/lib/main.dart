@@ -76,7 +76,7 @@ class _WrapeerState extends State<Wrapeer> {
         fontWeight: FontWeight.bold,
         fontSize: 25,
       ),
-      imageSize: 150,
+      imageSize: 100,
     );
   }
 }

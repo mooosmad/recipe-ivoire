@@ -1,6 +1,35 @@
 class Recipe {
   String id, title, imgPath, time;
-  Recipe({this.id, this.title, this.imgPath, this.time});
+  bool isFavorite;
+  int isfavoriteCount;
+  Recipe(
+      {this.id,
+      this.title,
+      this.imgPath,
+      this.time,
+      this.isFavorite,
+      this.isfavoriteCount});
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "title": title,
+      "imgPath": imgPath,
+      "time": time,
+      "isFavorite": isFavorite,
+      "isfavoriteCount": isfavoriteCount,
+    };
+  }
+
+  factory Recipe.fromMap(Map<String, dynamic> map) {
+    return Recipe(
+      id: map["id"],
+      title: map["title"],
+      imgPath: map["imgPath"],
+      time: map["time"],
+      isFavorite: map["isFavorite"] == 1,
+      isfavoriteCount: map["isfavoriteCount"],
+    );
+  }
 }
 
 class RecipeModel {

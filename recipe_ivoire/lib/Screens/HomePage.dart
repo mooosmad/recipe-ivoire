@@ -20,6 +20,7 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   List<Categories> categories = [];
   List<Recipe> recettes = [];
+  Recipe recipe;
   bool loadCategories;
   bool loadRecettes = true;
   String categorieSelectioner;
@@ -106,7 +107,6 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void initState() {
     getCategories();
-
     super.initState();
   }
 
@@ -284,34 +284,116 @@ class _MyHomePageState extends State<MyHomePage>
         ),
       ),
       endDrawer: Drawer(
-        child: Container(
-          child: Column(
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                child: null,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  DrawerHeader(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          firebaseUser != null
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: firebaseUser.photoURL != null
+                                      ? NetworkImage(firebaseUser.photoURL)
+                                      : null,
+                                  child: firebaseUser.photoURL == null
+                                      ? Text(
+                                          "${firstLetterEmail(firebaseUser.email)}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 26,
+                                          ),
+                                        )
+                                      : null)
+                              : Container(),
+                          SizedBox(height: 15),
+                          Text(firebaseUser.email),
+                        ]),
+                  ),
+                  SizedBox(height: 15),
+                  ListTile(
+                    title: Text("Partager l'application"),
+                    leading: Icon(Icons.share),
+                  ),
+                  ListTile(
+                    title: Text("Evaluez nous"),
+                    leading: Icon(Icons.star),
+                  ),
+                  ListTile(
+                    title: Text("Vos favoris"),
+                    leading: Icon(Icons.favorite),
+                  ),
+                  ListTile(
+                    title: Text("Nous contacter"),
+                    onTap: () {},
+                    leading: Icon(Icons.mail),
+                  ),
+                ],
               ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: OutlinedButton(
-                      onPressed: () {
-                        auth.signOut();
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => AuthenticationWrapper(),
-                          ),
-                        );
-                      },
-                      child: Text("Deconnexion")),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: OutlinedButton(
+                  onPressed: () {
+                    auth.signOut();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => AuthenticationWrapper(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "Deconnexion",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  )),
+            ),
+            Container(
+              margin: EdgeInsets.all(20),
+              child: Text(
+                "version 1.1.5",
+                style: TextStyle(
+                  color: Colors.black,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+  // endDrawer: Drawer(
+  //   child: Container(
+  //     child: Column(
+  //       children: [
+  //         DrawerHeader(
+  //           decoration: BoxDecoration(
+  //             color: Colors.transparent,
+  //           ),
+  //           child: null,
+  //         ),
+  //         Center(
+  //           child: Padding(
+  //             padding: const EdgeInsets.only(bottom: 10),
+  //             child: OutlinedButton(
+  //                 onPressed: () {
+  //                   auth.signOut();
+  //                   Navigator.of(context).pushReplacement(
+  //                     MaterialPageRoute(
+  //                       builder: (context) => AuthenticationWrapper(),
+  //                     ),
+  //                   );
+  //                 },
+  //                 child: Text("Deconnexion")),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   ),
+  // ),
 }
