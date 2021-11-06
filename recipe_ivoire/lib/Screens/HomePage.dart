@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_recipee_app/Screens/RecipeDetails.dart';
 import 'package:flutter_recipee_app/Screens/wrapper.dart';
+import 'package:flutter_recipee_app/data/database.dart';
 import 'package:flutter_recipee_app/model/CategoriesModel.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
 import "package:http/http.dart" as http;
@@ -50,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage>
               imgPath: result["meals"][index]["strMealThumb"]
                   .replaceAll(RegExp(r"\\"), ""),
               time: "10",
+              isfavoriteCount: 15,
+              isFavorite: false,
             );
           });
           loadRecettes = false;
@@ -185,28 +189,24 @@ class _MyHomePageState extends State<MyHomePage>
                 padding: EdgeInsets.only(right: 10, top: 10),
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                    onTap: _openEndDrawer,
-                    child: firebaseUser != null
-                        ? CircleAvatar(
-                            radius: 26,
-                            backgroundImage: firebaseUser.photoURL != null
-                                ? NetworkImage(firebaseUser.photoURL)
-                                : null,
-                            child: firebaseUser.photoURL == null
-                                ? Text(
-                                    "${firstLetterEmail(firebaseUser.email)}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 26,
-                                    ),
-                                  )
-                                : null)
-                        : Container()),
-                // child: IconButton(
-                //     onPressed: () {
-                //       context.read<AuthenticationService>().signOut();
-                //     },
-                //     icon: Icon(Icons.ac_unit_outlined)),
+                  onTap: _openEndDrawer,
+                  child: firebaseUser != null
+                      ? CircleAvatar(
+                          radius: 26,
+                          backgroundImage: firebaseUser.photoURL != null
+                              ? NetworkImage(firebaseUser.photoURL)
+                              : null,
+                          child: firebaseUser.photoURL == null
+                              ? Text(
+                                  "${firstLetterEmail(firebaseUser.email)}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 26,
+                                  ),
+                                )
+                              : null)
+                      : Container(),
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -270,10 +270,25 @@ class _MyHomePageState extends State<MyHomePage>
                                 CircularProgressIndicator(color: Colors.amber),
                           ),
                     Container(
-                      child: Center(
-                        child: Text(
-                          'Favories Section',
-                        ),
+                      child: FutureBuilder<List<Recipe>>(
+                        future: RecipeDataBase.instance.recipes(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.waiting) {
+                            if (snapshot.hasData) {
+                              final data = snapshot.data;
+                              return ListView.builder(
+                                  itemCount: data.length,
+                                  itemBuilder: (context, i) {
+                                    return RecipeCard(recipe: data[i]);
+                                  });
+                            } else {
+                              return Text("no favoris add");
+                            }
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        },
                       ),
                     ),
                   ],

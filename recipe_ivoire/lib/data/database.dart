@@ -10,7 +10,7 @@ class RecipeDataBase {
   static Database db;
 
   Future<Database> get database async {
-    if (db = null) {
+    if (db != null) {
       return db;
     } else {
       db = await initDB();
@@ -21,32 +21,23 @@ class RecipeDataBase {
   initDB() async {
     WidgetsFlutterBinding.ensureInitialized();
     return await openDatabase(
-      join(await getDatabasesPath(), "databases_recipe.db"),
+      join(await getDatabasesPath(), "Databases_recipe.db"),
       onCreate: (db, i) {
         return db.execute(
-          "CREATE TABLE recipe(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, imgPath TEXT, time TEXT, isfavoriteCount INTEGRER, isFavorite INTEGRER)",
+          "CREATE TABLE recipe(id INTEGER , title TEXT, imgPath TEXT, time TEXT, isfavoriteCount INTEGRER, isFavorite INTEGRER)",
         );
       },
-      version: 3,
+      version: 1,
     );
   }
 
   insertRecipe(Recipe recipe) async {
     final Database tdb = await database;
+
     await tdb.insert(
       "recipe",
       recipe.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  updateRecipe(Recipe recipe) async {
-    final Database tdb = await database;
-    await tdb.update(
-      "recipe",
-      recipe.toMap(),
-      where: "id=?",
-      whereArgs: [recipe.id],
     );
   }
 
@@ -68,14 +59,22 @@ class RecipeDataBase {
         return Recipe.fromMap(maps[index]);
       },
     );
-    /* if (mesnotes.isEmpty) {
-       for (MiniCont m in defaultNotes) {
-         insertNote(m);
-       }
-       mesnotes = defaultNotes;
-     }
-    ON ELEVE LE RETOUR OBLIGATOIRE(POUR NE PAS QUE LES ELEMENTS PAR DEFAULT REAPPARAISSE UNE FOIS SUPPRIMER)
-    */
+
+    return recipes;
+  }
+
+  Future<List<Recipe>> oneRecipe(int id) async {
+    final Database tdb = await database;
+    List<Map<String, dynamic>> maps =
+        await tdb.query("recipe", where: "id=?", whereArgs: [id]);
+    List<Recipe> recipes = List.generate(
+      maps.length,
+      (index) {
+        return Recipe.fromMap(maps[index]);
+      },
+    );
+    print("-----------------");
+    print(recipes);
     return recipes;
   }
 }
