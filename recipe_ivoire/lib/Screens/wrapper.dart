@@ -5,16 +5,14 @@ import 'package:flutter_recipee_app/welcome.dart';
 import 'package:provider/src/provider.dart';
 
 class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({Key key}) : super(key: key);
+  const AuthenticationWrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
 
-    if (firebaseUser != null) {
-      if (firebaseUser.emailVerified) {
-        return MyHomePage();
-      }
+    if (firebaseUser.emailVerified) {
+      return MyHomePage();
     }
     return LoginScreen();
   }

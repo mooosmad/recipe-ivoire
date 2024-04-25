@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+
 import 'package:flutter_recipee_app/data/database.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
-import 'package:icon_animator/icon_animator.dart';
 
 class RecipeCard extends StatefulWidget {
   final Recipe recipe;
   RecipeCard({
-    @required this.recipe,
+    required this.recipe,
   });
 
   @override
@@ -87,39 +86,39 @@ class _RecipeCardState extends State<RecipeCard> {
                               CachedNetworkImageProvider(widget.recipe.imgPath),
                         ),
                       ),
-                      if (loved)
-                        Positioned(
-                          left: 120,
-                          top: 120,
-                          child: IconAnimator(
-                            loop: 0,
-                            icon: Icons.favorite,
-                            children: [
-                              AnimationFrame(size: 0, duration: 100),
-                              AnimationFrame(
-                                  size: 18, color: Colors.white, duration: 100),
-                              AnimationFrame(
-                                  size: 20, color: Colors.white, duration: 100),
-                              AnimationFrame(
-                                  size: 30, color: Colors.white, duration: 100),
-                              AnimationFrame(
-                                  size: 40, color: Colors.white, duration: 150),
-                              AnimationFrame(
-                                  size: 50, color: Colors.white, duration: 200),
-                              AnimationFrame(
-                                  size: 60, color: Colors.white, duration: 250),
-                              AnimationFrame(
-                                  size: 100,
-                                  color: Colors.white,
-                                  duration: 300),
-                            ],
-                          ),
-                          // child: Icon(
-                          //   FlutterIcons.heart_circle_mco,
-                          //   size: 100,
-                          //   color: Colors.white,
-                          // ),
-                        )
+                      // if (loved)
+                      //   Positioned(
+                      //     left: 120,
+                      //     top: 120,
+                      //     child: IconAnimator(
+                      //       loop: 0,
+                      //       icon: Icons.favorite,
+                      //       children: [
+                      //         AnimationFrame(size: 0, duration: 100),
+                      //         AnimationFrame(
+                      //             size: 18, color: Colors.white, duration: 100),
+                      //         AnimationFrame(
+                      //             size: 20, color: Colors.white, duration: 100),
+                      //         AnimationFrame(
+                      //             size: 30, color: Colors.white, duration: 100),
+                      //         AnimationFrame(
+                      //             size: 40, color: Colors.white, duration: 150),
+                      //         AnimationFrame(
+                      //             size: 50, color: Colors.white, duration: 200),
+                      //         AnimationFrame(
+                      //             size: 60, color: Colors.white, duration: 250),
+                      //         AnimationFrame(
+                      //             size: 100,
+                      //             color: Colors.white,
+                      //             duration: 300),
+                      //       ],
+                      //     ),
+                      //     // child: Icon(
+                      //     //   FlutterIcons.heart_circle_mco,
+                      //     //   size: 100,
+                      //     //   color: Colors.white,
+                      //     // ),
+                      //   )
                     ],
                   ),
                 ),
@@ -134,13 +133,13 @@ class _RecipeCardState extends State<RecipeCard> {
                     saved = !saved;
                   });
                 },
-                child: Icon(
-                  saved
-                      ? FlutterIcons.bookmark_check_mco
-                      : FlutterIcons.bookmark_outline_mco,
-                  color: Colors.white,
-                  size: 38,
-                ),
+                // child: Icon(
+                //   saved
+                //       ? FlutterIcons.bookmark_check_mco
+                //       : FlutterIcons.bookmark_outline_mco,
+                //   color: Colors.white,
+                //   size: 38,
+                // ),
               ),
             ),
           ],
@@ -177,9 +176,9 @@ class _RecipeCardState extends State<RecipeCard> {
                     SizedBox(
                       width: 20,
                     ),
-                    Icon(
-                      FlutterIcons.timer_mco,
-                    ),
+                    // Icon(
+                    //   FlutterIcons.timer_mco,
+                    // ),
                     SizedBox(
                       width: 4,
                     ),

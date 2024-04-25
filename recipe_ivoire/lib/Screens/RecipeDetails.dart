@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_recipee_app/model/Recipe.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
@@ -11,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Recipe recipe;
-  const RecipeDetails({Key key, this.recipe}) : super(key: key);
+  const RecipeDetails({Key? key, required this.recipe}) : super(key: key);
 
   @override
   _RecipeDetailsState createState() => _RecipeDetailsState();
@@ -112,10 +111,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
               ),
               Row(
                 children: [
-                  Icon(
-                    FlutterIcons.heart_circle_mco,
-                    color: Colors.red,
-                  ),
+                  // Icon(
+                  //   FlutterIcons.heart_circle_mco,
+                  //   color: Colors.red,
+                  // ),
                   SizedBox(
                     width: 5,
                   ),
@@ -126,9 +125,9 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                   SizedBox(
                     width: 10,
                   ),
-                  Icon(
-                    FlutterIcons.timer_mco,
-                  ),
+                  // Icon(
+                  //   FlutterIcons.timer_mco,
+                  // ),
                   SizedBox(
                     width: 4,
                   ),
@@ -293,8 +292,8 @@ class _RecipeDetailsState extends State<RecipeDetails> {
 
 class Ingredients extends StatelessWidget {
   const Ingredients({
-    Key key,
-    @required this.recipeModel,
+    Key? key,
+    required this.recipeModel,
   }) : super(key: key);
 
   final RecipeModel recipeModel;
@@ -348,7 +347,7 @@ class Ingredients extends StatelessWidget {
 
 class Mesure extends StatelessWidget {
   final List mesures;
-  const Mesure({Key key, this.mesures}) : super(key: key);
+  const Mesure({Key? key, required this.mesures}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -382,7 +381,7 @@ class Mesure extends StatelessWidget {
 
 class Instruction extends StatelessWidget {
   final String text;
-  const Instruction({Key key, this.text}) : super(key: key);
+  const Instruction({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -10,7 +10,7 @@ void main() async {
 }
 
 class AuthApp extends StatefulWidget {
-  const AuthApp({Key key}) : super(key: key);
+  const AuthApp({Key? key}) : super(key: key);
 
   @override
   _AuthAppState createState() => _AuthAppState();
@@ -25,7 +25,7 @@ class _AuthAppState extends State<AuthApp> {
 
   @override
   Widget build(BuildContext context) {
-    User user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
     return MaterialApp(
       home: Scaffold(
@@ -40,11 +40,11 @@ class _AuthAppState extends State<AuthApp> {
               children: [
                 TextFormField(
                   controller: emailController,
-                  validator: validateEmail,
+                  // validator: validateEmail(emailController.text),
                 ),
                 TextFormField(
                   controller: passwordController,
-                  validator: validatePassword,
+                  // validator: validatePassword(passwordController.text),
                 ),
                 Padding(
                   padding: EdgeInsets.all(12.0),
@@ -67,7 +67,7 @@ class _AuthAppState extends State<AuthApp> {
                                   isLoading = true;
                                   errorMessage = '';
                                 });
-                                if (_key.currentState.validate()) {
+                                if (_key.currentState!.validate()) {
                                   try {
                                     await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
@@ -75,7 +75,7 @@ class _AuthAppState extends State<AuthApp> {
                                       password: passwordController.text,
                                     );
                                   } on FirebaseAuthException catch (error) {
-                                    errorMessage = error.message;
+                                    errorMessage = error.message!;
                                   }
                                   setState(() => isLoading = false);
                                 }
@@ -91,7 +91,7 @@ class _AuthAppState extends State<AuthApp> {
                                   isLoading = true;
                                   errorMessage = '';
                                 });
-                                if (_key.currentState.validate()) {
+                                if (_key.currentState!.validate()) {
                                   try {
                                     await FirebaseAuth.instance
                                         .signInWithEmailAndPassword(
@@ -99,7 +99,7 @@ class _AuthAppState extends State<AuthApp> {
                                       password: passwordController.text,
                                     );
                                   } on FirebaseAuthException catch (error) {
-                                    errorMessage = error.message;
+                                    errorMessage = error.message!;
                                   }
                                   setState(() => isLoading = false);
                                 }
@@ -119,7 +119,7 @@ class _AuthAppState extends State<AuthApp> {
                                   await FirebaseAuth.instance.signOut();
                                   errorMessage = '';
                                 } on FirebaseAuthException catch (error) {
-                                  errorMessage = error.message;
+                                  errorMessage = error.message!;
                                 }
                                 setState(() => isLoading = false);
                               }),
@@ -132,31 +132,31 @@ class _AuthAppState extends State<AuthApp> {
       ),
     );
   }
-}
 
-String validateEmail(String formEmail) {
-  if (formEmail == null || formEmail.isEmpty)
-    return 'E-mail address is required.';
+  String validateEmail(String formEmail) {
+    if (formEmail.isEmpty) return 'E-mail address is required.';
 
-  String pattern = r'\w+@\w+\.\w+';
-  RegExp regex = RegExp(pattern);
-  if (!regex.hasMatch(formEmail)) return 'Invalid E-mail Address format.';
+    String pattern = r'\w+@\w+\.\w+';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(formEmail)) {
+      return 'Invalid E-mail Address format.';
+    }
+    return '';
+  }
 
-  return null;
-}
+  String validatePassword(String formPassword) {
+    if (formPassword.isEmpty) return 'Password is required.';
 
-String validatePassword(String formPassword) {
-  if (formPassword == null || formPassword.isEmpty)
-    return 'Password is required.';
-
-  String pattern =
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-  RegExp regex = RegExp(pattern);
-  if (!regex.hasMatch(formPassword))
-    return '''
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(formPassword)) {
+      return '''
       Password must be at least 8 characters,
       include an uppercase letter, number and symbol.
       ''';
+    }
 
-  return null;
+    return '';
+  }
 }

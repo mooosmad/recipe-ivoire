@@ -15,11 +15,11 @@ class VerifyPage extends StatefulWidget {
 
 class _VerifyPageState extends State<VerifyPage> {
   final auth = FirebaseAuth.instance;
-  User user;
-  Timer timer;
+  late User user;
+  late Timer timer;
   @override
   void initState() {
-    user = auth.currentUser;
+    user = auth.currentUser!;
     user.sendEmailVerification();
 
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
@@ -77,7 +77,7 @@ class _VerifyPageState extends State<VerifyPage> {
   }
 
   Future<void> checkEmailVerified() async {
-    user = auth.currentUser;
+    user = auth.currentUser!;
     await user.reload();
     if (user.emailVerified) {
       timer.cancel();

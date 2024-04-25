@@ -15,7 +15,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String _email, _password;
+  late String _email, _password;
   bool loading = false;
   final auth = FirebaseAuth.instance;
   @override
@@ -171,7 +171,7 @@ class _SignupPageState extends State<SignupPage> {
                         Padding(
                           padding: const EdgeInsets.only(right: 20.0),
                           // ignore: deprecated_member_use
-                          child: FlatButton(
+                          child: OutlinedButton(
                             child: Text(
                               "Déjà un compte ?",
                               style: TextStyle(
@@ -201,11 +201,7 @@ class _SignupPageState extends State<SignupPage> {
                         children: <Widget>[
                           Expanded(
                             // ignore: deprecated_member_use
-                            child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              color: Colors.white,
+                            child: OutlinedButton(
                               onPressed: () => _signup(_email, _password),
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -254,7 +250,7 @@ class _SignupPageState extends State<SignupPage> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => VerifyPage()));
     } on FirebaseAuthException catch (error) {
-      Fluttertoast.showToast(msg: error.message, gravity: ToastGravity.TOP);
+      Fluttertoast.showToast(msg: error.message!, gravity: ToastGravity.TOP);
       //Stop animation
       setState(() {
         loading = false;

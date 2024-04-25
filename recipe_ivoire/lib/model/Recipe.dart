@@ -3,12 +3,12 @@ class Recipe {
   bool isFavorite;
   int isfavoriteCount;
   Recipe(
-      {this.id,
-      this.title,
-      this.imgPath,
-      this.time,
-      this.isFavorite,
-      this.isfavoriteCount});
+      {required this.id,
+      required this.title,
+      required this.imgPath,
+      required this.time,
+      required this.isFavorite,
+      required this.isfavoriteCount});
   Map<String, dynamic> toMap() {
     return {
       "id": int.parse(id), // pour avoir un entier a mettre dans la bd
@@ -33,15 +33,15 @@ class Recipe {
 }
 
 class RecipeModel {
-  Recipe recipe;
+  Recipe? recipe;
   String instructions, video;
   List<String> ingredients = [];
   List<String> mesures = [];
   RecipeModel({
     this.recipe,
-    this.instructions,
-    this.video,
-    this.ingredients,
-    this.mesures,
+    required this.instructions,
+    required this.video,
+    required this.ingredients,
+    required this.mesures,
   });
 }

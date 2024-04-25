@@ -13,7 +13,7 @@ class ResetPage extends StatefulWidget {
 }
 
 class _ResetPageState extends State<ResetPage> {
-  String _email;
+  late String _email;
   bool loading = false;
   final auth = FirebaseAuth.instance;
   @override
@@ -115,11 +115,7 @@ class _ResetPageState extends State<ResetPage> {
                         children: <Widget>[
                           Expanded(
                             // ignore: deprecated_member_use
-                            child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              color: Colors.white,
+                            child: OutlinedButton(
                               onPressed: () {
                                 auth.sendPasswordResetEmail(email: _email);
                                 Fluttertoast.showToast(

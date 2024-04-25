@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_recipee_app/Screens/wrapper.dart';
 import 'package:flutter_recipee_app/constant/animation.dart';
@@ -9,7 +8,7 @@ import "package:shared_preferences/shared_preferences.dart";
 import 'package:lottie/lottie.dart';
 
 class Description extends StatefulWidget {
-  const Description({Key key}) : super(key: key);
+  const Description({Key? key}) : super(key: key);
 
   @override
   _DescriptionState createState() => _DescriptionState();

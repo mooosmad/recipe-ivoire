@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_recipee_app/Screens/RecipeDetails.dart';
 import 'package:flutter_recipee_app/Screens/wrapper.dart';
@@ -22,15 +20,15 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   List<Categories> categories = [];
   List<Recipe> recettes = [];
-  Recipe recipe;
-  bool loadCategories;
+  late Recipe recipe;
+  late bool loadCategories;
   bool loadRecettes = true;
-  String categorieSelectioner;
+  late String categorieSelectioner;
   final auth = FirebaseAuth.instance;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String errorMessage = '';
   void _openEndDrawer() {
-    _scaffoldKey.currentState.openEndDrawer();
+    _scaffoldKey.currentState!.openEndDrawer();
   }
 
   getRecettes(String categori) async {
@@ -101,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   String firstLetterEmail(String email) {
-    String upper;
-    if (email != null) {
+    String upper = '';
+    if (email.isNotEmpty) {
       return upper = email[0].toUpperCase();
     }
     return upper;
@@ -194,11 +192,11 @@ class _MyHomePageState extends State<MyHomePage>
                       ? CircleAvatar(
                           radius: 26,
                           backgroundImage: firebaseUser.photoURL != null
-                              ? NetworkImage(firebaseUser.photoURL)
+                              ? NetworkImage(firebaseUser.photoURL!)
                               : null,
                           child: firebaseUser.photoURL == null
                               ? Text(
-                                  "${firstLetterEmail(firebaseUser.email)}",
+                                  "${firstLetterEmail(firebaseUser.email!)}",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 26,
@@ -278,7 +276,7 @@ class _MyHomePageState extends State<MyHomePage>
                             if (snapshot.hasData) {
                               final data = snapshot.data;
                               return ListView.builder(
-                                  itemCount: data.length,
+                                  itemCount: data!.length,
                                   itemBuilder: (context, i) {
                                     return RecipeCard(recipe: data[i]);
                                   });
@@ -313,11 +311,11 @@ class _MyHomePageState extends State<MyHomePage>
                               ? CircleAvatar(
                                   radius: 50,
                                   backgroundImage: firebaseUser.photoURL != null
-                                      ? NetworkImage(firebaseUser.photoURL)
+                                      ? NetworkImage(firebaseUser.photoURL!)
                                       : null,
                                   child: firebaseUser.photoURL == null
                                       ? Text(
-                                          "${firstLetterEmail(firebaseUser.email)}",
+                                          "${firstLetterEmail(firebaseUser.email!)}",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 26,
@@ -326,7 +324,7 @@ class _MyHomePageState extends State<MyHomePage>
                                       : null)
                               : Container(),
                           SizedBox(height: 15),
-                          Text(firebaseUser.email),
+                          Text(firebaseUser.email!),
                         ]),
                   ),
                   SizedBox(height: 15),

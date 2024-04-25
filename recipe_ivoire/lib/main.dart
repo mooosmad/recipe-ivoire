@@ -40,15 +40,13 @@ class MyApp extends StatelessWidget {
 }
 
 class Wrapeer extends StatefulWidget {
-  const Wrapeer({Key key}) : super(key: key);
-
   @override
   _WrapeerState createState() => _WrapeerState();
 }
 
 class _WrapeerState extends State<Wrapeer> {
   Future<SharedPreferences> pref = SharedPreferences.getInstance();
-  bool isFirst;
+  late bool isFirst;
   @override
   void initState() {
     pref.then((SharedPreferences _prefs) {
@@ -61,7 +59,7 @@ class _WrapeerState extends State<Wrapeer> {
 
   @override
   Widget build(BuildContext context) {
-    if (isFirst == null)
+    if (isFirst)
       return Container(
         color: Colors.white,
       );

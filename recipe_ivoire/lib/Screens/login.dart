@@ -17,9 +17,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _email, _password;
+  late String _email, _password;
   bool loading = false;
-  String errorMessage;
+  late String errorMessage;
   final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.only(right: 20.0),
                           // ignore: deprecated_member_use
-                          child: FlatButton(
+                          child: OutlinedButton(
                             child: Text(
                               "Mot de passe Oublié ?",
                               style: TextStyle(
@@ -199,11 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           Expanded(
                             // ignore: deprecated_member_use
-                            child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              color: Colors.white,
+                            child: OutlinedButton(
                               onPressed: () {
                                 setState(() {
                                   loading = true;
@@ -280,12 +276,7 @@ class _LoginPageState extends State<LoginPage> {
                                 children: <Widget>[
                                   Expanded(
                                     // ignore: deprecated_member_use
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      color: Colors.white,
+                                    child: OutlinedButton(
                                       onPressed: () => {},
                                       child: Container(
                                         child: Row(
@@ -294,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
                                           children: <Widget>[
                                             Expanded(
                                               // ignore: deprecated_member_use
-                                              child: FlatButton(
+                                              child: OutlinedButton(
                                                 onPressed: () {
                                                   {
                                                     Navigator.push(
@@ -305,10 +296,6 @@ class _LoginPageState extends State<LoginPage> {
                                                     );
                                                   }
                                                 },
-                                                padding: EdgeInsets.only(
-                                                  top: 20.0,
-                                                  bottom: 20.0,
-                                                ),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -350,12 +337,7 @@ class _LoginPageState extends State<LoginPage> {
                                 children: <Widget>[
                                   Expanded(
                                     // ignore: deprecated_member_use
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                      color: Colors.white,
+                                    child: OutlinedButton(
                                       onPressed: () => {},
                                       child: Container(
                                         child: Row(
@@ -364,7 +346,7 @@ class _LoginPageState extends State<LoginPage> {
                                           children: <Widget>[
                                             Expanded(
                                               // ignore: deprecated_member_use
-                                              child: FlatButton(
+                                              child: OutlinedButton(
                                                 onPressed: () async {
                                                   context
                                                       .read<
@@ -378,10 +360,6 @@ class _LoginPageState extends State<LoginPage> {
                                                     ),
                                                   );
                                                 },
-                                                padding: EdgeInsets.only(
-                                                  top: 20.0,
-                                                  bottom: 20.0,
-                                                ),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment

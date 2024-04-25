@@ -14,7 +14,7 @@ class NotificationService {
     });
   }
 
-  static Future<String> getToken() async {
+  static Future<Future<String?>> getToken() async {
     return FirebaseMessaging.instance.getToken(
         vapidKey:
             "BAbuzBT4bhAQcs0VPrjnTTfvtEjNTGdl_LRfjZzQPNz6c-TWmz02-G6uUEZl3Ukdl4XCuc12SQQ8BOdxgwr0L30");

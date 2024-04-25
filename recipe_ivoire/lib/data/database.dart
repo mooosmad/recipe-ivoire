@@ -7,14 +7,14 @@ class RecipeDataBase {
   RecipeDataBase._();
   static RecipeDataBase instance = RecipeDataBase._();
 
-  static Database db;
+  static Database? db;
 
   Future<Database> get database async {
     if (db != null) {
-      return db;
+      return db!;
     } else {
       db = await initDB();
-      return db;
+      return db!;
     }
   }
 

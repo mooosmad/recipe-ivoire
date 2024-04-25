@@ -6,9 +6,9 @@ class AuthenticationService {
 
   AuthenticationService(this._firebaseAuth);
 
-  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<void> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
     if (googleUser != null) {
@@ -26,6 +26,7 @@ class AuthenticationService {
         code: "ERROR_ABORDER_BY_USER",
       );
     }
+    return null;
   }
 
   // getProfileImage() {
@@ -43,23 +44,23 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> signIn({String email, String password}) async {
+  Future<String> signIn({String? email, String? password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+          email: email!, password: password!);
       return "Signed in";
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.message!;
     }
   }
 
-  Future<String> signUp({String email, String password}) async {
+  Future<String> signUp({String? email, String? password}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email!, password: password!);
       return "Signed up";
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.message!;
     }
   }
 }

@@ -1,4 +1,5 @@
 class Categories {
   String nom, image, description;
-  Categories({this.nom, this.image, this.description});
+  Categories(
+      {required this.nom, required this.image, required this.description});
 }

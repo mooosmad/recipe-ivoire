@@ -15,7 +15,11 @@ class AnimationWidget extends StatefulWidget {
   final Widget child;
   final int second;
   final Depart depart;
-  const AnimationWidget({Key key, this.child, this.second, this.depart})
+  const AnimationWidget(
+      {Key? key,
+      required this.child,
+      required this.second,
+      required this.depart})
       : super(key: key);
 
   @override
@@ -24,7 +28,7 @@ class AnimationWidget extends StatefulWidget {
 
 class _AnimationWidgetState extends State<AnimationWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
   Tween<Offset> position = Tween<Offset>(begin: Offset(0, 1), end: Offset.zero);
   func() {
     switch (widget.depart) {

@@ -66,12 +66,7 @@ class _LoginScreenState extends State<LoginScreen>
             child: Row(
               children: <Widget>[
                 Expanded(
-                  // ignore: deprecated_member_use
-                  child: OutlineButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)),
-                    color: Colors.white,
-                    highlightedBorderColor: Colors.white,
+                  child: OutlinedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -111,10 +106,7 @@ class _LoginScreenState extends State<LoginScreen>
               children: <Widget>[
                 Expanded(
                   // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)),
-                    color: Colors.white,
+                  child: OutlinedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
