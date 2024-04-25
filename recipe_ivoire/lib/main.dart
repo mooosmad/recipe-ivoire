@@ -19,62 +19,69 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          Provider<AuthenticationService>(
-            create: (_) => AuthenticationService(FirebaseAuth.instance),
-          ),
-          StreamProvider(
-            create: (context) =>
-                context.read<AuthenticationService>().authStateChanges,
-            initialData: null,
-          ),
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Recette Ivoire',
-          theme: ThemeData(
-              primarySwatch: Colors.blue, brightness: Brightness.light),
-          home: Wrapeer(),
-        ));
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+          initialData: null,
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Recette Ivoire',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          brightness: Brightness.light,
+        ),
+        home: Wrapper(),
+      ),
+    );
   }
 }
 
-class Wrapeer extends StatefulWidget {
+class Wrapper extends StatefulWidget {
   @override
-  _WrapeerState createState() => _WrapeerState();
+  _WrapperState createState() => _WrapperState();
 }
 
-class _WrapeerState extends State<Wrapeer> {
-  Future<SharedPreferences> pref = SharedPreferences.getInstance();
-  late bool isFirst;
+class _WrapperState extends State<Wrapper> {
+  late Future<SharedPreferences> pref;
+  late bool isFirst = true; // Initialiser la variable isFirst à true
+
   @override
   void initState() {
+    super.initState();
+    pref = SharedPreferences.getInstance();
     pref.then((SharedPreferences _prefs) {
       setState(() {
         isFirst = _prefs.getBool("isFirst") ?? true;
       });
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isFirst)
+    if (isFirst) {
       return Container(
         color: Colors.white,
       );
-    return SplashScreenView(
-      navigateRoute: isFirst ? Description() : AuthenticationWrapper(),
-      backgroundColor: Colors.white,
-      imageSrc: "assets/images/logo.png",
-      text: "Recipe Ivoire",
-      textType: TextType.ScaleAnimatedText,
-      textStyle: TextStyle(
-        color: Colors.orange,
-        fontWeight: FontWeight.bold,
-        fontSize: 25,
-      ),
-      imageSize: 100,
-    );
+    } else {
+      return SplashScreenView(
+        navigateRoute: isFirst ? Description() : AuthenticationWrapper(),
+        backgroundColor: Colors.white,
+        imageSrc: "assets/images/logo.png",
+        text: "Recipe Ivoire",
+        textType: TextType.ScaleAnimatedText,
+        textStyle: TextStyle(
+          color: Colors.orange,
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+        ),
+        imageSize: 100,
+      );
+    }
   }
 }
